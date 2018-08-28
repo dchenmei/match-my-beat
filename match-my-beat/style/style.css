@@ -14,7 +14,7 @@
 	-moz-background-size: cover;
 	-o-background-size: cover;
     background-attachment: fixed;
-	background-image: url(images/background.jpg);
+	background-image: url(../images/background.jpg);
 }
 
 .bg-img .overlay
