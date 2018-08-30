@@ -1,6 +1,8 @@
 ## Todo file
-
 todo.txt
 
 ## vi swp files
 *.swp
+
+## Env config files
+*.env
