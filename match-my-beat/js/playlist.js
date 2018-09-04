@@ -71,23 +71,28 @@ function createPlaylist(username, name, callback) {
 }
 
 function addTracksToPlaylist(username, playlist, tracks, callback) {
-    console.log('addTracksToPlaylist', username, playlist, tracks);
-    var url = 'https://api.spotify.com/v1/users/' + username +
-        '/playlists/' + playlist +
-        '/tracks'; // ?uris='+encodeURIComponent(tracks.join(','));
+    //console.log('addTracksToPlaylist', username, playlist, JSON.stringify(tracks));
+    //var url = 'https://api.spotify.com/v1/users/' + username +
+    //var url = 'https://api.spotify.com/v1/' +
+        //'/playlists/' + playlist +
+        //'/tracks' + // ?uris='+encodeURIComponent(tracks.join(','));
+//'?position=0&uris=spotify%3Atrack%3A4iV5W9uYEdYUVa79Axb7Rh%2Cspotify%3Atrack%3A1301WleyT98MSxVHPZCA6M';
+
+	var url = "https://api.spotify.com/v1/playlists/7kCCRPfV5hAERQhBAD97Ml/tracks?position=0&uris=spotify%3Atrack%3A4iV5W9uYEdYUVa79Axb7Rh%2Cspotify%3Atrack%3A1301WleyT98MSxVHPZCA6M";
     $.ajax(url, {
         method: 'POST',
-        data: JSON.stringify(tracks),
-        dataType: 'text',
         headers: {
             'Authorization': 'Bearer ' + g_access_token,
+			'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
         success: function(r) {
             console.log('add track response', JSON.stringify(r));
-            callback(r.id);
+            //callback(r.id);
+            callback(null);
         },
         error: function(r) {
+			console.log('FAIL');
             callback(null);
         }
     });
@@ -118,13 +123,13 @@ function generate() {
 
 	getTracksBPM(120, function(tracks) {
 		g_tracks = tracks;
-		console.log('seeded tracks', JSON.stringify(tracks));
+		//console.log('seeded tracks', JSON.stringify(tracks));
 	}); 
 
     getUsername(function(username) {
         console.log('got username', username);
         createPlaylist(username, g_name, function(playlist) {
-			
+		getTracksBPM(120, function(g_tracks) {	
             console.log('created playlist', playlist);
             addTracksToPlaylist(username, playlist, g_tracks, function() {
                 console.log('tracks added.');
@@ -133,6 +138,7 @@ function generate() {
                 $('#done').show();
             });
         });
+		});
     });
 }
 
