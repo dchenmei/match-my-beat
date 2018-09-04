@@ -36,7 +36,7 @@ function getUsername(callback) {
             'Authorization': 'Bearer ' + g_access_token
         },  
         success: function(r) {
-            console.log('got username response', r); 
+            console.log('got username response', JSON.stringify(r)); 
             callback(r.id);
         },  
         error: function(r) {
@@ -61,7 +61,7 @@ function createPlaylist(username, name, callback) {
             'Content-Type': 'application/json'
         },  
         success: function(r) {
-            console.log('create playlist response', r); 
+            console.log('create playlist response', JSON.stringify(r)); 
             callback(r.id);
         },  
         error: function(r) {
@@ -84,7 +84,7 @@ function addTracksToPlaylist(username, playlist, tracks, callback) {
             'Content-Type': 'application/json'
         },
         success: function(r) {
-            console.log('add track response', r);
+            console.log('add track response', JSON.stringify(r));
             callback(r.id);
         },
         error: function(r) {
@@ -98,7 +98,7 @@ function generate() {
     var hash = location.hash.replace(/#/g, '');
     var all = hash.split('&');
     var args = {};
-    console.log('all', all);
+    console.log('all-json', JSON.stringify(all));
     all.forEach(function(keyvalue) {
         var idx = keyvalue.indexOf('=');
         var key = keyvalue.substring(0, idx);
@@ -108,7 +108,7 @@ function generate() {
 
 	g_name = "BPM Playlist";
 
-    console.log('got args', args);
+    console.log('got args', JSON.stringify(args));
 
     if (typeof(args['access_token']) != 'undefined') {
         // got access token
@@ -117,7 +117,8 @@ function generate() {
     }
 
 	getTracksBPM(120, function(tracks) {
-		console.log('seeded tracks', tracks);
+		g_tracks = tracks;
+		console.log('seeded tracks', JSON.stringify(tracks));
 	}); 
 
     getUsername(function(username) {
