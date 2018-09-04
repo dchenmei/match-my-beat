@@ -2,10 +2,36 @@ var g_access_token = '';
 var g_username = '';
 var g_tracks = [];
 
+function getTracksBPM(bpm, callback)
+{
+	var percent_range = 75;
+	var min_bpm = bpm * (percent_range / 100);
+	var max_bpm = bpm / (percent_range / 100);
+	var market = "ES";
+	var seed_artists = "4NHQUGzhtTLFvgF5SZesLK";
+	var url = 'https://api.spotify.com/v1/recommendations?' + 
+			  '&market=' + market + '&seed_artists=' + seed_artists +
+			  '&min_tempo=' + min_bpm + '&max_tempo=' + max_bpm + '&target_tempo=' + bpm;
+
+	url = "https://api.spotify.com/v1/recommendations?limit=10&market=ES&seed_artists=4NHQUGzhtTLFvgF5SZesLK&seed_genres=classical%2Ccountry&seed_tracks=0c6xIDDpzE81m2q797ordA"
+	$.ajax(url, {
+		headers: {
+			'Authorization': 'Bearer ' + g_access_token,
+			'Content-Type': 'application/json'
+		},
+		success: function(r) {
+			console.log('got tracks');
+			callback(r);
+		},
+		error: function(r) {
+			callback(null);
+		}
+	});
+}
+
 function getUsername(callback) {
     var url = 'https://api.spotify.com/v1/me';
     $.ajax(url, {
-        dataType: 'json',
         headers: {
             'Authorization': 'Bearer ' + g_access_token
         },  
@@ -80,9 +106,6 @@ function generate() {
         args[key] = val;
     });
 
-
-    //g_name = localStorage.getItem('createplaylist-name');
-    //g_tracks = JSON.parse(localStorage.getItem('createplaylist-tracks'));
 	g_name = "BPM Playlist";
 
     console.log('got args', args);
@@ -93,9 +116,14 @@ function generate() {
         g_access_token = args['access_token'];
     }
 
+	getTracksBPM(120, function(tracks) {
+		console.log('seeded tracks', tracks);
+	}); 
+
     getUsername(function(username) {
         console.log('got username', username);
         createPlaylist(username, g_name, function(playlist) {
+			
             console.log('created playlist', playlist);
             addTracksToPlaylist(username, playlist, g_tracks, function() {
                 console.log('tracks added.');
