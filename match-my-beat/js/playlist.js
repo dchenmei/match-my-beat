@@ -2,6 +2,7 @@ var g_access_token = '';
 var g_username = '';
 var g_tracks = [];
 
+// returns an array of tracks (uri only)
 function getTracksBPM(bpm, callback)
 {
 	var percent_range = 75;
@@ -21,7 +22,16 @@ function getTracksBPM(bpm, callback)
 		},
 		success: function(r) {
 			console.log('got tracks');
-			callback(r);
+			
+			var songs = r.tracks;
+			var songs_arr = { "uris": [] };
+			for (var i = 0; i < songs.length; ++i)
+			{
+				console.log('push', songs[i].uri);
+				songs_arr.uris.push(songs[i].uri);
+			}
+			
+			callback(songs_arr);
 		},
 		error: function(r) {
 			callback(null);
@@ -62,6 +72,8 @@ function createPlaylist(username, name, callback) {
         },  
         success: function(r) {
             console.log('create playlist response', JSON.stringify(r)); 
+			
+			// for each track, only extract the uri
             callback(r.id);
         },  
         error: function(r) {
@@ -71,16 +83,13 @@ function createPlaylist(username, name, callback) {
 }
 
 function addTracksToPlaylist(username, playlist, tracks, callback) {
-    //console.log('addTracksToPlaylist', username, playlist, JSON.stringify(tracks));
-    //var url = 'https://api.spotify.com/v1/users/' + username +
-    //var url = 'https://api.spotify.com/v1/' +
-        //'/playlists/' + playlist +
-        //'/tracks' + // ?uris='+encodeURIComponent(tracks.join(','));
-//'?position=0&uris=spotify%3Atrack%3A4iV5W9uYEdYUVa79Axb7Rh%2Cspotify%3Atrack%3A1301WleyT98MSxVHPZCA6M';
-
-	var url = "https://api.spotify.com/v1/playlists/7kCCRPfV5hAERQhBAD97Ml/tracks?position=0&uris=spotify%3Atrack%3A4iV5W9uYEdYUVa79Axb7Rh%2Cspotify%3Atrack%3A1301WleyT98MSxVHPZCA6M";
+    console.log('addTracksToPlaylist!', username, playlist, tracks);
+	/* uri's (track ids) are passed through body parameters to avoid url limit overflow */
+	var url = "https://api.spotify.com/v1/playlists/" + playlist + "/tracks?position=0";
     $.ajax(url, {
         method: 'POST',
+		data: JSON.stringify(tracks),
+		dataType: 'text',
         headers: {
             'Authorization': 'Bearer ' + g_access_token,
 			'Accept': 'application/json',
@@ -88,8 +97,7 @@ function addTracksToPlaylist(username, playlist, tracks, callback) {
         },
         success: function(r) {
             console.log('add track response', JSON.stringify(r));
-            //callback(r.id);
-            callback(null);
+			callback(r);
         },
         error: function(r) {
 			console.log('FAIL');
@@ -120,11 +128,6 @@ function generate() {
         console.log('got access token', args['access_token']);
         g_access_token = args['access_token'];
     }
-
-	getTracksBPM(120, function(tracks) {
-		g_tracks = tracks;
-		//console.log('seeded tracks', JSON.stringify(tracks));
-	}); 
 
     getUsername(function(username) {
         console.log('got username', username);
