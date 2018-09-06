@@ -7,7 +7,7 @@
 	var doLogin = function(callback) {
 		var url = 'https://accounts.spotify.com/authorize?client_id=' + client_id +
 			'&response_type=token' +
-			'&scope=playlist-read-private%20playlist-modify-public%20playlist-modify-private' +
+			'&scope=user-top-read%20playlist-read-private%20playlist-modify-public%20playlist-modify-private' +
 			'&redirect_uri=' + encodeURIComponent(redirect_uri);
 		//localStorage.setItem('createplaylist-tracks', JSON.stringify(g_tracks));
 		localStorage.setItem('createplaylist-name', g_name);

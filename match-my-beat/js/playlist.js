@@ -1,33 +1,85 @@
 var g_access_token = '';
 var g_username = '';
 var g_tracks = [];
+var seed_tracks_str = '';
+var seed_artists_str = '';
 
-// returns an array of tracks (uri only)
-function getTracksBPM(bpm, callback)
+// returns user's top two artists
+function getTopArtists(callback)
 {
-	var percent_range = 75;
-	var min_bpm = bpm * (percent_range / 100);
-	var max_bpm = bpm / (percent_range / 100);
-	var market = "ES";
-	var seed_artists = "4NHQUGzhtTLFvgF5SZesLK";
-	var url = 'https://api.spotify.com/v1/recommendations?' + 
-			  '&market=' + market + '&seed_artists=' + seed_artists +
-			  '&min_tempo=' + min_bpm + '&max_tempo=' + max_bpm + '&target_tempo=' + bpm;
+	var limit = 2;
+	var url = 'https://api.spotify.com/v1/me/top/artists/?limit=' + String(limit);
+	$.ajax(url, {
+		headers: {
+			'Authorization': 'Bearer ' + g_access_token, 
+			'Content-Type': 'application/json'
+		},
+		success: function(r) {
+			var artists = r.items;
+			var artists_str = "";
+			for (var i = 0; i < artists.length; ++i)
+			{
+				if (i != 0)
+					artists_str += ',';
+			
+				artists_str += artists[i].id;
+			}
+			callback(artists_str);
+		},
+		error: function(r) {
+			console.log("Fail top artists");
+			callback(null);
+		}
+	});
+}
 
-	url = "https://api.spotify.com/v1/recommendations?limit=10&market=ES&seed_artists=4NHQUGzhtTLFvgF5SZesLK&seed_genres=classical%2Ccountry&seed_tracks=0c6xIDDpzE81m2q797ordA"
+// returns string of user's top two tracks ids, separated by commas
+function getTopTracks(callback)
+{
+	var limit = 2;
+	var url = 'https://api.spotify.com/v1/me/top/tracks/?limit=' + String(limit);
 	$.ajax(url, {
 		headers: {
 			'Authorization': 'Bearer ' + g_access_token,
 			'Content-Type': 'application/json'
 		},
 		success: function(r) {
-			console.log('got tracks');
-			
+			var tracks = r.items;
+			var tracks_str = "" 
+			for (var i = 0; i < tracks.length; ++i)
+			{
+				if (i != 0)
+					tracks_str += ',';
+	
+				tracks_str += tracks[i].id;
+			}
+			callback(tracks_str);	
+		},
+		error: function(r) {
+			console.log("getTopTracks failed");
+			callback(null);
+		}
+	});
+}
+
+// returns an array of tracks (uri only)
+function getTracksBPM(seed_artists_str, seed_tracks_str, bpm, callback)
+{
+	var percent_range = 75;
+	var min_bpm = bpm * (percent_range / 100);
+	var max_bpm = bpm / (percent_range / 100);
+	var url = 'https://api.spotify.com/v1/recommendations?limit=10&market=ES&seed_artists=' + seed_artists_str  + 
+			  '&seed_tracks=' + seed_tracks_str + '&min_tempo=' + min_bpm + '&max_tempo=' + max_bpm + '&target_tempo=' + bpm;
+	$.ajax(url, {
+		headers: {
+			'Authorization': 'Bearer ' + g_access_token,
+			'Content-Type': 'application/json'
+		},
+		success: function(r) {
 			var songs = r.tracks;
 			var songs_arr = { "uris": [] };
 			for (var i = 0; i < songs.length; ++i)
 			{
-				console.log('push', songs[i].uri);
 				songs_arr.uris.push(songs[i].uri);
 			}
 			
@@ -46,7 +98,6 @@ function getUsername(callback) {
             'Authorization': 'Bearer ' + g_access_token
         },  
         success: function(r) {
-            console.log('got username response', JSON.stringify(r)); 
             callback(r.id);
         },  
         error: function(r) {
@@ -56,7 +107,6 @@ function getUsername(callback) {
 }
 
 function createPlaylist(username, name, callback) {
-    console.log('createPlaylist', username, name);
     var url = 'https://api.spotify.com/v1/users/' + username +
         '/playlists';
     $.ajax(url, {
@@ -71,8 +121,6 @@ function createPlaylist(username, name, callback) {
             'Content-Type': 'application/json'
         },  
         success: function(r) {
-            console.log('create playlist response', JSON.stringify(r)); 
-			
 			// for each track, only extract the uri
             callback(r.id);
         },  
@@ -83,7 +131,6 @@ function createPlaylist(username, name, callback) {
 }
 
 function addTracksToPlaylist(username, playlist, tracks, callback) {
-    console.log('addTracksToPlaylist!', username, playlist, tracks);
 	/* uri's (track ids) are passed through body parameters to avoid url limit overflow */
 	var url = "https://api.spotify.com/v1/playlists/" + playlist + "/tracks?position=0";
     $.ajax(url, {
@@ -100,8 +147,7 @@ function addTracksToPlaylist(username, playlist, tracks, callback) {
 			callback(r);
         },
         error: function(r) {
-			console.log('FAIL');
-            callback(null);
+			console.log('FAIL', JSON.stringify(r));
         }
     });
 }
@@ -129,10 +175,13 @@ function generate() {
         g_access_token = args['access_token'];
     }
 
+
     getUsername(function(username) {
+	getTopArtists(function(seed_artists_str) {
+	getTopTracks(function(seed_tracks_str) {
         console.log('got username', username);
         createPlaylist(username, g_name, function(playlist) {
-		getTracksBPM(120, function(g_tracks) {	
+		getTracksBPM(seed_artists_str, seed_tracks_str, 120, function(g_tracks) {	
             console.log('created playlist', playlist);
             addTracksToPlaylist(username, playlist, g_tracks, function() {
                 console.log('tracks added.');
@@ -142,6 +191,8 @@ function generate() {
             });
         });
 		});
+	});
+	});
     });
 }
 
