@@ -179,9 +179,9 @@ function generate() {
     getUsername(function(username) {
 	getTopArtists(function(seed_artists_str) {
 	getTopTracks(function(seed_tracks_str) {
-        console.log('got username', username);
+		var bpm = localStorage.getItem("bpm");
         createPlaylist(username, g_name, function(playlist) {
-		getTracksBPM(seed_artists_str, seed_tracks_str, 120, function(g_tracks) {	
+		getTracksBPM(seed_artists_str, seed_tracks_str, bpm, function(g_tracks) {	
             console.log('created playlist', playlist);
             addTracksToPlaylist(username, playlist, g_tracks, function() {
                 console.log('tracks added.');

@@ -4,6 +4,7 @@
 	var g_name = 'fantasy';
 	var g_tracks = '';
 
+
 	var doLogin = function(callback) {
 		var url = 'https://accounts.spotify.com/authorize?client_id=' + client_id +
 			'&response_type=token' +
@@ -19,6 +20,7 @@
 		$('#start').click(function() {
 			doLogin(function() {});
 		})
+		localStorage.setItem("bpm", document.getElementById("bpm").value);
 }
 
 })(window);
