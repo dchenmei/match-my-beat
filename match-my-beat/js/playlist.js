@@ -13,11 +13,31 @@ function getTopArtists(callback)
 			'Content-Type': 'application/json'
 		},
 		success: function(r) {
-			console.log('artists', JSON.stringify(r));
 			callback(r);
 		},
 		error: function(r) {
 			console.log("Fail", JSON.stringify(r));
+			callback(null);
+		}
+	});
+}
+
+// returns user's top five tracks
+function getTopTracks(callback)
+{
+	var limit = 5;
+	var url = 'https://api.spotify.com/v1/me/top/tracks/?limit=' + String(limit);
+	$.ajax(url, {
+		headers: {
+			'Authorization': 'Bearer ' + g_access_token,
+			'Content-Type': 'application/json'
+		},
+		success: function(r) {
+			console.log('tracks', JSON.stringify(r));
+			callback(r);	
+		},
+		error: function(r) {
+			console.log("getTopTracks failed");
 			callback(null);
 		}
 	});
@@ -150,8 +170,8 @@ function generate() {
     }
 
     getUsername(function(username) {
-		console.log("AAAAAA");
-		getTopArtists(function(artists) { });
+		//getTopArtists(function(artists) { });
+		getTopTracks(function(tracks) { });
         console.log('got username', username);
         createPlaylist(username, g_name, function(playlist) {
 		getTracksBPM(120, function(g_tracks) {	
