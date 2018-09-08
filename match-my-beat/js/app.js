@@ -18,9 +18,9 @@
 	exports.startApp = function() {
 		console.log('start app.');
 		$('#start').click(function() {
+			localStorage.setItem("bpm", document.getElementById("bpm").value);
 			doLogin(function() {});
 		})
-		localStorage.setItem("bpm", document.getElementById("bpm").value);
 }
 
 })(window);
