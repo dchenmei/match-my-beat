@@ -40,3 +40,14 @@
 	padding-top: 10px;
 	padding-bottom: 10px;
 }
+
+#about 
+{
+	color: white;
+}
+
+#about:hover
+{
+	background-color: grey;
+}
+
