@@ -46,7 +46,8 @@
 	color: white;
 }
 
-#about:hover
+#about:hover,
+#about:active
 {
 	background-color: grey;
 }
