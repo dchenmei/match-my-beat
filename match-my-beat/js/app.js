@@ -18,8 +18,21 @@
 	exports.startApp = function() {
 		console.log('start app.');
 		$('#start').click(function() {
-			localStorage.setItem("bpm", document.getElementById("bpm").value);
-			doLogin(function() {});
+	
+			/* Validate BPM return true if:
+ 			 * - can be parsed to a number
+ 			 * - 50 <= bpm <= 200
+ 			 */
+			var bpm = document.getElementById("bpm").value;
+			if (bpm === String(Number(bpm)) && Number(bpm) >= 50 && Number(bpm) <= 200)
+			{
+				localStorage.setItem("bpm", bpm);
+				doLogin(function() {});
+			}
+			else
+			{
+				alert("Please enter a valid bpm!");
+			}
 		})
 }
 
