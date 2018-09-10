@@ -1,0 +1,27 @@
+<html>
+<head>
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css" />
+	<link rel="stylesheet" href="style/callback.css" />
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.js"></script>
+	<script type="text/javascript" src="js/playlist.js"></script>
+</head>
+
+<body onload="generate()">
+	<div class="site-wrapper">
+		<div class="site-wrapper-inner">
+			<div id="creating"> 
+				<h1>Generating playlist...</h1>
+			</div>
+			<div id="done" style="display: none; text-align: center;">
+				<h1>All set!</h1>
+				<p>
+					<a class="btn btn-lg btn-primary btn-success" id="playlistlink">
+						Open playlist in Spotify
+					</a>
+				</p>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
