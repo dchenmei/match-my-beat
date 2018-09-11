@@ -21,7 +21,6 @@ A custom Spotify Web App that generates a playlist based on a given heartbeat. B
 ## Usage 
 
 <p align="center">
-	In gif form for the lazy, words at the bottom
 	<img src="demo.gif" width="500" height="500" />
 </p>
 
