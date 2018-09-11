@@ -185,7 +185,7 @@ function generate() {
             console.log('created playlist', playlist);
             addTracksToPlaylist(username, playlist, g_tracks, function() {
                 console.log('tracks added.');
-                $('#playlistlink').attr('href', 'spotify:user:'+username+':playlist:'+playlist);
+                $('#playlistlink').attr('href', 'https://open.spotify.com/playlist/'+playlist);
                 $('#creating').hide();
                 $('#done').show();
             });
