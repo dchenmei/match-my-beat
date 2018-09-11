@@ -21,7 +21,7 @@ A custom Spotify Web App that generates a playlist based on a given heartbeat. B
 ## Usage 
 
 <p align="center">
-	<img src="demo.gif" width="500" height="500" />
+	<img src="demo.gif" />
 </p>
 
 1. Select desired bpm, anywhere from 50 to 200.
