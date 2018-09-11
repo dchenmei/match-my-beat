@@ -13,7 +13,7 @@ A custom Spotify Web App that generates a playlist based on a given heartbeat. B
 2. Navigate into the main directory  
 `cd match-my-beat/match-my-beat`
 
-3. Set Up Test Server (feel free to serve with other tools but must be at 8000)
+3. Set Up Test Server (feel free to serve with other tools but must be at 8000)   
 `python -m SimpleHTTPServer 8000`
 
 4. Fire up your favorite browser and navigate to `localhost:8000`
