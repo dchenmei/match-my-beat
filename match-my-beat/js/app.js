@@ -1,3 +1,7 @@
+/*
+ * Input (bpm and generate button) processing
+ */
+
 (function(exports) {
 	var client_id = '9acc436bf575440aba8f1451d1266c48';
 	var redirect_uri = 'http://localhost:8000/callback.html';
@@ -8,6 +12,7 @@
 			'&scope=user-top-read%20playlist-read-private%20playlist-modify-public%20playlist-modify-private' +
 			'&redirect_uri=' + encodeURIComponent(redirect_uri);
 
+		/* Open popup window on the center of the window */
 		var width = 400;
 		var height = 500;
 		var horizontal = (screen.width / 2) - (width / 2);
@@ -15,8 +20,8 @@
 		var w = window.open(url, 'Generating BPM Playlist...', 'WIDTH=' + width + ', HEIGHT=' + height + ', TOP=' + vertical + ' ,LEFT=' + horizontal);
 	}
 
+	/* Start processing input after user clicks "generate" */
 	exports.startApp = function() {
-		console.log('start app.');
 		$('#start').click(function() {
 	
 			/* Validate BPM return true if:
@@ -35,5 +40,4 @@
 			}
 		})
 }
-
 })(window);
