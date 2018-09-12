@@ -1,10 +1,6 @@
 var g_access_token = '';
-var g_username = '';
-var g_tracks = [];
-var seed_tracks_str = '';
-var seed_artists_str = '';
 
-// returns user's top two artists
+
 function getTopArtists(callback)
 {
 	var limit = 2;
