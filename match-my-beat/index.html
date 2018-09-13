@@ -9,19 +9,17 @@
 
 	<title> Match My Beat </title>
 
-	<!-- Google font -->
-
 	<!-- Boostrap -->
 	<link type="text/css" rel="stylesheet" href="style/bootstrap.min.css" />
 
 	<!-- Custom stylesheet -->
     <link type="text/css" rel="stylesheet" href="style/style.css" />
+    <link type="text/css" rel="stylesheet" href="style/about.css" />
 </head>
 
 <body onload="startApp()">
 
 	<!-- Menu -->
-	
 	<div class="bg-img">
 		<div class="overlay"></div>
 	</div>
@@ -31,7 +29,6 @@
 			<div class="navbar-header">
 			</div>
 
-			<!-- menu links -->
 			<!-- logo (link to about popup) -->
 			<ul class="main-nav nav navbar-nav navbar-right">
 				<div id="about">
@@ -63,18 +60,15 @@
 
 	<!-- Input -->
 	<div class="top-buffer">
-
 	<div class="text-center">
 		<div class="form-group bpm-form">
-			<input id="bpm" class="form-control" type="number" min="50" max="200" step="1" value="120">
+			<input id="bpm" class="form-control" value="120">
 		</div>
 		<p>
 			<button id="start" class="btn btn-lg btn-primary btn-success">Generate Playlist</button>
 		</p>
     </div>
-
 	</div>
-
 	<!-- End Input -->
 
 </body>
