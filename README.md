@@ -33,5 +33,9 @@ A custom Spotify Web App that generates a playlist based on a given heartbeat. B
 4. Enjoy!
 
 ## Credits and Contributions
-Coming soon
 
+In no particular order:
+* [Spotify API](https://developer.spotify.com/documentation/web-api/)
+* [Boostrap](https://getbootstrap.com/)
+
+To contribute, feel free to create issues or start a pull request with suggested changes!
