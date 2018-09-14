@@ -1,27 +1,25 @@
+/*
+ * Modal Popup Box script
+ */
+
 $(document).ready(function()
 {
 
-// Get the box
 var info = document.getElementById('info');
-
-// Get the button that opens the info
 var btn = document.getElementById("about");
-
-// Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
 
-// When the user clicks on the button, open the modal 
+/* Open box */
 btn.onclick = function() {
-	console.log("Fudge?");
     info.style.display = "block";
 }
 
-// When the user clicks on <span> (x), close the modal
+/* Close box */
 span.onclick = function() {
     info.style.display = "none";
 }
 
-// When the user clicks anywhere outside of the modal, close it
+/* Also close box */
 window.onclick = function(event) {
     if (event.target == info) {
         info.style.display = "none";

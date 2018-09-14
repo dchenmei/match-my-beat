@@ -1,6 +1,4 @@
 /* Style for homepage (index) */
-
-
 .bg-img 
 {
 	position: absolute;
@@ -46,15 +44,3 @@
 {
 	text-align: center;
 }
-
-#about 
-{
-	color: white;
-}
-
-#about:hover,
-#about:active
-{
-	background-color: grey;
-}
-
