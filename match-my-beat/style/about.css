@@ -1,3 +1,14 @@
+#about 
+{
+    color: white;
+}
+
+#about:hover,
+#about:active
+{
+    background-color: grey;
+}
+
 .info-box
 {
     display: none; /* Hidden by default */
